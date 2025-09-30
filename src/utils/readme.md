@@ -1,0 +1,1 @@
+# Aquí irian Funciones Auxiliares de ser necesarias

@@ -1,0 +1,1 @@
+# Aquí van los Types: Suscripción, Tema y Estado
