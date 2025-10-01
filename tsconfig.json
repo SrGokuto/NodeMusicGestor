@@ -3,7 +3,7 @@
     /* === Salida y módulos === */
     "target": "ES2020",               // Código moderno
     "module": "ESNext",               // Genera import/export nativos
-    "moduleResolution": "node",       // Resolución de módulos estilo Node
+    "moduleResolution": "bundler",    // Resolución de módulos moderna
     "outDir": "./dist",               // Carpeta de salida
     "rootDir": "./src",               // Carpeta de código fuente
 
