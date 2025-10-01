@@ -2,7 +2,11 @@ import { Usuario } from "./models/Usuario.js";
 import { UsuarioPremium } from "./models/UsuarioPremium.js";
 import { Tema } from "./types/tema.js";
 import { Suscripcion } from "./types/Suscripcion.js";
+import { YoutubeService } from "./services/YoutubeService.js";
 import { input, select } from '@inquirer/prompts';
+
+// Array global para almacenar los videos encontrados
+let videosEncontrados: Array<{title: string, url: string, channelTitle: string}> = [];
 
 while (true) {
   const action = await select({
@@ -10,6 +14,8 @@ while (true) {
     choices: [
       { name: 'Crear Usuario Básico', value: 'crear_basico' },
       { name: 'Crear Usuario Premium', value: 'crear_premium' },
+      { name: 'Buscar Videos en YouTube', value: 'buscar_youtube' },
+      { name: 'Ver Videos Guardados', value: 'ver_videos' },
       { name: 'Salir', value: 'salir' }
     ]
 })
@@ -51,6 +57,53 @@ while (true) {
     });
     const usuarioPremium = new UsuarioPremium(id, nombre, correo, fechaRegistro, fechaPago, fechaVencimiento, autoRenovacion, temaPreferido);
     console.log('Usuario Premium creado:', usuarioPremium);
+  
+  } else if (action === 'buscar_youtube') {
+    try {
+      const youtubeService = new YoutubeService();
+      const termino = await input({ message: 'Ingresa el título o término de búsqueda:' });
+      const maxResultados = await input({ 
+        message: 'Número máximo de resultados (presiona Enter para 10):',
+        default: '10'
+      });
+      
+      console.log('Buscando videos en YouTube...');
+      const videos = await youtubeService.buscarVideosPorTitulo(termino, parseInt(maxResultados) || 10);
+      
+      if (videos.length > 0) {
+        console.log(`\n✅ Se encontraron ${videos.length} videos:`);
+        videos.forEach((video, index) => {
+          console.log(`\n${index + 1}. ${video.title}`);
+          console.log(`   Canal: ${video.channelTitle}`);
+          console.log(`   URL: ${video.url}`);
+          
+          // Guardar en el array global
+          videosEncontrados.push({
+            title: video.title,
+            url: video.url,
+            channelTitle: video.channelTitle
+          });
+        });
+        console.log(`\n📁 ${videos.length} videos han sido guardados en el array.`);
+      } else {
+        console.log('❌ No se encontraron videos para ese término de búsqueda.');
+      }
+    } catch (error) {
+      console.error('❌ Error al buscar videos:', error);
+    }
+
+  } else if (action === 'ver_videos') {
+    if (videosEncontrados.length === 0) {
+      console.log('📭 No hay videos guardados. Primero busca algunos videos en YouTube.');
+    } else {
+      console.log(`\n📁 Videos guardados (${videosEncontrados.length} total):`);
+      videosEncontrados.forEach((video, index) => {
+        console.log(`\n${index + 1}. ${video.title}`);
+        console.log(`   Canal: ${video.channelTitle}`);
+        console.log(`   URL: ${video.url}`);
+      });
+    }
+
   } else if (action === 'salir') {
     console.log('Saliendo del programa.');
     break;
