@@ -1,7 +1,7 @@
 import { ContenidoMusical } from "./ContenidoMusical";
 import { Cancion } from "./Cancion";
 
-class Playlist extends ContenidoMusical{
+export class Playlist extends ContenidoMusical{
     public visibilidad:boolean;
     public descripcion:string;
     public colaborativa:boolean;
