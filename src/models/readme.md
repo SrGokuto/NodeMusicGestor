@@ -1,1 +1,1 @@
-# Aquí van las clases: Cancion, Playlist, Usuario, UsuarioPremium, Artista, ContenidoMusical, Reproductor
+# Aquí van las clases: Cancion, Playlist, Usuario, UsuarioPremium, Artista, ContenidoMusical, Reproducto
