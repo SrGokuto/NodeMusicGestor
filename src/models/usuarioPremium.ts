@@ -40,7 +40,7 @@ export class UsuarioPremium extends Usuario {
     console.log(`Se ha reportado el problema: "${problema}". Nuestro equipo lo revisará.`);
   }
 
-  // Getters opcionales
+  
   public getTemaPreferido(): Tema {
     return this.temaPreferido;
   }
