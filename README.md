@@ -33,8 +33,8 @@ El objetivo del proyecto es ofrecer una capa fácil de usar sobre herramientas d
 
 Asegúrate de tener instalados:
 
-- **Node.js** (versión recomendada: 18+)
-- **yt-dlp** → https://github.com/yt-dlp/yt-dlp
+- **Node.js** (versión recomendada)
+- **ytdlp** → https://github.com/yt-dlp/yt-dlp
 - **FFmpeg** → https://ffmpeg.org/
 
 ---
