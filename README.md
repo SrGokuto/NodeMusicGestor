@@ -2,7 +2,7 @@
 
 ##  Descripción del proyecto
 
-Este proyecto de software es un **wrapper (envoltura) personalizado para YouTube**, desarrollado en **TypeScript**, que utiliza **ytdlp** y **FFmpeg** para gestionar la descarga, conversión y reproducción de contenido multimedia.
+Este proyecto de software es un `wrapper (envoltura) personalizado para YouTube`, desarrollado en `TypeScript`, que utiliza `ytdlp` y `FFmpeg` para gestionar la descarga, conversión y reproducción de contenido multimedia.
 
 **Wrapper de YouTube**
 
@@ -27,7 +27,7 @@ El objetivo del proyecto es ofrecer una capa fácil de usar sobre herramientas d
 - Convertirlos a diferentes formatos.
 - Gestionar reproducción mediante clases como `Reproductor`, `Cancion`, `Playlist`, etc.
 
----
+--- 
 
 ## Instrucciones de instalación y uso
 
