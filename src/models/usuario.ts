@@ -1,3 +1,4 @@
+
 export enum Suscripcion {
   GRATUITA = "gratuita",
   PREMIUM = "premium",
@@ -5,17 +6,15 @@ export enum Suscripcion {
 }
 
 
-import { IUsuario } from "./IUsuario";
-
-
-export class Usuario implements IUsuario {
-  public id: string;
-  public nombre: string;
-  public correo: string;
-  public plan: Suscripcion;
-  public fechaRegistro: Date;
-  public limiteDispositivos: number;
+export class Usuario {
+ 
+  private _id: string;
+  private nombre: string;
+  private correo: string;
+  private plan: Suscripcion;
+  private fechaRegistro: Date;
   private playlists: string[];
+  private limiteDispositivos: number;
 
   constructor(
     id: string,
@@ -25,7 +24,7 @@ export class Usuario implements IUsuario {
     fechaRegistro: Date,
     limiteDispositivos: number
   ) {
-    this.id = id;
+    this._id = id;
     this.nombre = nombre;
     this.correo = correo;
     this.plan = plan;
@@ -34,7 +33,7 @@ export class Usuario implements IUsuario {
     this.playlists = [];
   }
 
- 
+
   public crearPlaylist(playlist: string): string {
     this.playlists.push(playlist);
     return `Playlist "${playlist}" creada con éxito.`;
@@ -50,10 +49,12 @@ export class Usuario implements IUsuario {
   }
 
   public agregarFavorito(cancion: string): string {
+
     return `La canción "${cancion}" se agregó a favoritos.`;
   }
 
   public eliminarFavorito(cancion: string): string {
+
     return `La canción "${cancion}" fue eliminada de favoritos.`;
   }
 
@@ -62,7 +63,18 @@ export class Usuario implements IUsuario {
     console.log(`La suscripción se actualizó a: ${suscripcion}`);
   }
 
+ 
   public getPlaylists(): string[] {
     return this.playlists;
   }
+
+  
+  public get id(): string {
+    return this._id;
+
+  }
+  public getNombre(): string {
+  return this.nombre;
+}
+
 }
