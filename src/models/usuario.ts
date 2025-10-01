@@ -1,22 +1,21 @@
-// src/models/Usuario.ts
-
-// Enumeración de planes de suscripción
 export enum Suscripcion {
   GRATUITA = "gratuita",
   PREMIUM = "premium",
   FAMILIAR = "familiar",
 }
 
-// Clase Usuario
-export class Usuario {
-  // Atributos
-  private _id: string;
-  private nombre: string;
-  private correo: string;
-  private plan: Suscripcion;
-  private fechaRegistro: Date;
+
+import { IUsuario } from "./IUsuario";
+
+
+export class Usuario implements IUsuario {
+  public id: string;
+  public nombre: string;
+  public correo: string;
+  public plan: Suscripcion;
+  public fechaRegistro: Date;
+  public limiteDispositivos: number;
   private playlists: string[];
-  private limiteDispositivos: number;
 
   constructor(
     id: string,
@@ -26,7 +25,7 @@ export class Usuario {
     fechaRegistro: Date,
     limiteDispositivos: number
   ) {
-    this._id = id;
+    this.id = id;
     this.nombre = nombre;
     this.correo = correo;
     this.plan = plan;
@@ -35,7 +34,7 @@ export class Usuario {
     this.playlists = [];
   }
 
-  // Métodos
+ 
   public crearPlaylist(playlist: string): string {
     this.playlists.push(playlist);
     return `Playlist "${playlist}" creada con éxito.`;
@@ -51,12 +50,10 @@ export class Usuario {
   }
 
   public agregarFavorito(cancion: string): string {
-    // Aquí podrías tener otra lista de favoritos, por ahora lo simulo
     return `La canción "${cancion}" se agregó a favoritos.`;
   }
 
   public eliminarFavorito(cancion: string): string {
-    // Simulación igual que arriba
     return `La canción "${cancion}" fue eliminada de favoritos.`;
   }
 
@@ -65,13 +62,7 @@ export class Usuario {
     console.log(`La suscripción se actualizó a: ${suscripcion}`);
   }
 
-  // Getter opcional para ver las playlists
   public getPlaylists(): string[] {
     return this.playlists;
-  }
-
-  // Getter para el ID (solo lectura)
-  public get id(): string {
-    return this._id;
   }
 }

@@ -1,12 +1,10 @@
-// src/index.ts
-// Aquí va el código de la funcionalidad principal
+
 
 import { Usuario, Suscripcion } from "./models/usuario";
 import { UsuarioPremium } from "./models/usuarioPremium";
 import { Tema } from "./models/tema";
 
 
-// === USUARIO NORMAL ===
 const user1 = new Usuario(
   "001",                        
   "sara",                 
@@ -27,16 +25,16 @@ user1.actualizarSuscripcion(Suscripcion.PREMIUM);
 console.log("Playlists actuales:", user1.getPlaylists());
 
 
-// === USUARIO PREMIUM ===
+
 const userPremium = new UsuarioPremium(
   "002",
-  "Valentina",
-  "vale@example.com",
-  new Date("2025-01-01"),   // fecha registro
-  new Date("2025-09-01"),   // fecha pago
-  new Date("2025-10-01"),   // fecha vencimiento
-  true,                     // auto renovación
-  Tema.MORADO               // tema preferido inicial
+  "sara",
+  "sara@gmail.com",
+  new Date("2025-01-01"),   
+  new Date("2025-09-01"),   
+  new Date("2025-10-01"),   
+  true,                     
+  Tema.MORADO               
 );
 
 console.log("\n=== PRUEBAS DE USUARIO PREMIUM ===");
