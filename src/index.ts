@@ -1,8 +1,9 @@
 
 
-import { Usuario, Suscripcion } from "./models/usuario";
-import { UsuarioPremium } from "./models/usuarioPremium";
-import { Tema } from "./models/tema";
+import { Usuario } from "./models/Usuario.js";
+import { UsuarioPremium } from "./models/UsuarioPremium.js";
+import { Tema } from "./types/tema.js";
+import { Suscripcion } from "./types/Suscripcion.js";
 
 
 const user1 = new Usuario(

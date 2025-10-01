@@ -1,5 +1,5 @@
-import { Usuario } from "../models/usuario";
-import { Buscador } from "../interfaces/buscador";  
+import { Usuario } from "../models/Usuario.js";
+import { Buscador } from "../interfaces/buscador.js";  
 
 export class BuscadorUsuarios implements Buscador {
   private usuarios: Usuario[];
@@ -9,11 +9,11 @@ export class BuscadorUsuarios implements Buscador {
   }
 
   buscarPorNombre(nombre: string): Usuario | null {
-    const usuario = this.usuarios.find(u => u.nombreUsuario === nombre);
+    const usuario = this.usuarios.find(u => u.getNombre() === nombre);
     return usuario || null;
   }
 
   buscarVarios(nombres: string[]): Usuario[] {
-    return this.usuarios.filter(u => nombres.includes(u.nombreUsuario));
+    return this.usuarios.filter(u => nombres.includes(u.getNombre()));
   }
 }

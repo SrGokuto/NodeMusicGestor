@@ -1,11 +1,12 @@
-import { Usuario, Suscripcion } from "./usuario";
-import { Tema } from "./tema";
+import { Usuario} from "./Usuario.js";
+import { Tema } from "../types/tema.js";
+import { Suscripcion } from "../types/Suscripcion.js";
 
 export class UsuarioPremium extends Usuario {
-  private fechaPago: Date;
-  private fechaVencimiento: Date;
-  private autoRenovacion: boolean;
-  private temaPreferido: Tema;
+  public fechaPago: Date;
+  public fechaVencimiento: Date;
+  public autoRenovacion: boolean;
+  public temaPreferido: Tema;
 
   constructor(
     id: string,
@@ -40,7 +41,7 @@ export class UsuarioPremium extends Usuario {
     console.log(`Se ha reportado el problema: "${problema}". Nuestro equipo lo revisará.`);
   }
 
-  
+  // Getters opcionales
   public getTemaPreferido(): Tema {
     return this.temaPreferido;
   }

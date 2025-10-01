@@ -1,4 +1,4 @@
-import { Usuario } from "./usuario";
+import { Usuario } from "../models/Usuario.js";
 
 export interface Buscador {
   buscarPorNombre(nombre: string): Usuario | null;

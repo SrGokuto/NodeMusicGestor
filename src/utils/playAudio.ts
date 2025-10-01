@@ -53,7 +53,7 @@ async function playAudio() {
     await borrarArchivo('./music/audio.m4a');
     // Descargar como m4a (mejor calidad disponible)
     const output = await ytdlp.downloadAsync(
-      'https://youtu.be/oYobLFYuTXs?si=V3-mBQZRJu6tDh8Q',
+      'https://youtu.be/4JkIs37a2JE?si=XS_uEVfImEb_gO-T',
       {
         format: "bestaudio", // Descarga el mejor audio disponible (usualmente m4a)
         output: "./music/audio.m4a", // Guarda como m4a primero
