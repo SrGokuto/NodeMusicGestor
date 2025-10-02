@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+import { select, confirm, checkbox } from '@inquirer/prompts';
+dotenv.config();
+
 interface VideoInfo {
     id: string;
     title: string;
@@ -13,10 +17,9 @@ export class YoutubeService {
     private baseUrl: string = 'https://www.googleapis.com/youtube/v3';
 
     constructor() {
-        // Por ahora usaremos la API key directamente para simplificar
-        this.apiKey = 'AIzaSyDMWDxaznnjYtkP0TEdTPw8rkNWiHllusI';
+        this.apiKey = process.env.YOUTUBE_GCLOUD_API_KEY || '';
         if (!this.apiKey) {
-            throw new Error('YOUTUBE_GCLOUD_API_KEY no está configurada');
+            throw new Error('La variable de entorno YOUTUBE_GCLOUD_API_KEY no está configurada, revisa el repositorio para información de como hacerlo!');
         }
     }
 
@@ -99,6 +102,98 @@ export class YoutubeService {
             return null;
         } catch (error) {
             console.error('Error al obtener detalles del video:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Busca videos y permite al usuario seleccionar interactivamente cuáles guardar
+     * @param query Término de búsqueda
+     * @param maxResults Número máximo de resultados
+     * @returns Array de videos seleccionados por el usuario
+     */
+    async buscarYSeleccionarVideos(query: string, maxResults: number = 10): Promise<VideoInfo[]> {
+        try {
+            // Buscar videos
+            const videos = await this.buscarVideosPorTitulo(query, maxResults);
+            
+            if (videos.length === 0) {
+                console.log('❌ No se encontraron videos para ese término de búsqueda.');
+                return [];
+            }
+
+            console.log(`\n✅ Se encontraron ${videos.length} videos:`);
+            videos.forEach((video, index) => {
+                console.log(`\n${index + 1}. ${video.title}`);
+                console.log(`   Canal: ${video.channelTitle}`);
+                console.log(`   URL: ${video.url}`);
+            });
+
+            // Preguntar si desea guardar videos
+            const deseaGuardar = await confirm({ 
+                message: '\n¿Deseas guardar alguno de estos videos?',
+                default: true
+            });
+
+            if (!deseaGuardar) {
+                return [];
+            }
+
+            const videosSeleccionados: VideoInfo[] = [];
+
+            // Preguntar si desea guardar múltiples videos a la vez
+            const guardarMultiples = await confirm({
+                message: '¿Deseas seleccionar múltiples videos a la vez?',
+                default: false
+            });
+
+            if (guardarMultiples) {
+                // Usar checkbox para selección múltiple
+                const choices = videos.map((video, index) => ({
+                    name: `${index + 1}. ${video.title} - ${video.channelTitle}`,
+                    value: index
+                }));
+
+                const seleccionados = await checkbox({
+                    message: 'Selecciona los videos que deseas guardar (usa Espacio para seleccionar, Enter para confirmar):',
+                    choices: choices
+                });
+
+                seleccionados.forEach((index: number) => {
+                    videosSeleccionados.push(videos[index]);
+                });
+
+                console.log(`\n📁 ${videosSeleccionados.length} video(s) seleccionado(s).`);
+            } else {
+                // Selección uno por uno
+                let continuar = true;
+                while (continuar) {
+                    const choices = videos.map((video, index) => ({
+                        name: `${index + 1}. ${video.title} - ${video.channelTitle}`,
+                        value: index
+                    }));
+
+                    const seleccion = await select({
+                        message: 'Selecciona un video para guardar:',
+                        choices: choices
+                    });
+
+                    videosSeleccionados.push(videos[seleccion]);
+                    console.log(`\n✅ Video guardado: ${videos[seleccion].title}`);
+
+                    // Preguntar si desea guardar más videos
+                    continuar = await confirm({
+                        message: '¿Deseas guardar otro video de los resultados?',
+                        default: false
+                    });
+                }
+
+                console.log(`\n📁 Total de videos guardados: ${videosSeleccionados.length}`);
+            }
+
+            return videosSeleccionados;
+        } catch (error) {
+            console.error('Error al buscar y seleccionar videos:', error);
             throw error;
         }
     }

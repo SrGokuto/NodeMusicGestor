@@ -6,12 +6,12 @@ import { Suscripcion } from "../types/Suscripcion.js";
 export class Usuario {
   // Atributos
   private _id: string;
-  private nombre: string;
-  private correo: string;
-  private plan: Suscripcion;
-  private fechaRegistro: Date;
-  private playlists: string[];
-  private limiteDispositivos: number;
+  public nombre: string;
+  public correo: string;
+  public plan: Suscripcion;
+  public fechaRegistro: Date;
+  public playlists: string[];
+  public limiteDispositivos: number;
 
   constructor(
     id: string,

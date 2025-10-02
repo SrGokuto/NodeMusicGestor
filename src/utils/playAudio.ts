@@ -18,7 +18,7 @@ async function borrarArchivo(ruta: string) {
     await unlink(ruta);
     console.log(`✓ Archivo eliminado: ${ruta}`);
   } catch (error) {
-    console.error(`Error al borrar ${ruta}:`, error);
+    console.error(`Error al borrar ${ruta}`);
   }
 }
 
@@ -29,10 +29,7 @@ async function convertirM4AaWAV(archivoEntrada: string, archivoSalida: string): 
     ffmpeg(archivoEntrada)
       .toFormat('wav')
       .on('start', (commandLine) => {
-        console.log('Comando FFmpeg:', commandLine);
-      })
-      .on('progress', (progress) => {
-        console.log(`Procesando: ${progress.percent ? Math.round(progress.percent) : 0}% completado`);
+        console.log('Convirtiendo:', commandLine);
       })
       .on('end', () => {
         console.log('Conversión finalizada');
@@ -46,39 +43,32 @@ async function convertirM4AaWAV(archivoEntrada: string, archivoSalida: string): 
   });
 }
 
-async function playAudio() {
+export async function playAudio(url: string) {
   try {
 
     await borrarArchivo('./music/audio.wav');
     await borrarArchivo('./music/audio.m4a');
     // Descargar como m4a (mejor calidad disponible)
-    const output = await ytdlp.downloadAsync(
-      'https://youtu.be/4JkIs37a2JE?si=XS_uEVfImEb_gO-T',
+    await ytdlp.downloadAsync(
+      url,
       {
         format: "bestaudio", // Descarga el mejor audio disponible (usualmente m4a)
         output: "./music/audio.m4a", // Guarda como m4a primero
-        onProgress: (progress) => {
-          console.log(progress);
-        },
       }
     );
 
-    console.log('Download completed:', output);
+    console.log('Descarga completada:');
 
     // Convertir m4a a wav
     console.log('Convirtiendo a WAV...');
     await convertirM4AaWAV('./music/audio.m4a', './music/audio.wav');
 
-    console.log("Playing");
+    console.log("Reproduciendo audio...");
     await player.play({
       path: './music/audio.wav',
     });
-
-    console.log('Reproducción completada');
 
   } catch (error) {
     console.error('Error:', error);
   }
 }
-
-playAudio();
