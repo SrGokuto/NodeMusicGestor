@@ -21,6 +21,8 @@ interface UsuarioEnBD {
   videosGuardados: Array<{ title: string, url: string, channelTitle: string }>;
 }
 
+console.clear();
+
 // Map que funciona como base de datos en memoria (correo -> datos del usuario)
 const usuariosDB = new Map<string, UsuarioEnBD>();
 
@@ -65,32 +67,44 @@ while (true) {
       });
     }
   }
-  else if (action === 'reproducir_todo') {
-    if (!loggedIn || !usuarioActual) {
-      console.log('❌ Debes iniciar sesión para reproducir videos.');
-      continue;
-    }
-
-    // Usar el tema del usuario premium si aplica
-    if (usuarioActual.usuario instanceof UsuarioPremium) {
-      consoleColor(usuarioActual.usuario.temaPreferido);
-    } else {
-      consoleColor(Tema.AZUL);
-    }
-
-    if (usuarioActual.videosGuardados.length === 0) {
-      console.log('📭 No hay videos guardados para reproducir. Primero busca algunos videos en YouTube.');
-    } else {
-      usuarioActual.videosGuardados.forEach((element) => {
-        console.log(`\n▶️  Reproduciendo: ${element.title}`);
-        console.log(`   Canal: ${element.channelTitle}`);
-        console.log(`   URL: ${element.url}`);
-        playAudio(element.url);
-        console.log('Reproducción completada ✅');
-      });
-
-    }
+  // ...existing code...
+else if (action === 'reproducir_todo') {
+  if (!loggedIn || !usuarioActual) {
+    console.log('❌ Debes iniciar sesión para reproducir videos.');
+    continue;
   }
+
+  // Usar el tema del usuario premium si aplica
+  if (usuarioActual.usuario instanceof UsuarioPremium) {
+    consoleColor(usuarioActual.usuario.temaPreferido);
+  } else {
+    consoleColor(Tema.AZUL);
+  }
+
+  if (usuarioActual.videosGuardados.length === 0) {
+    console.log('📭 No hay videos guardados para reproducir. Primero busca algunos videos en YouTube.');
+  } else {
+    console.log(`\n🎵 Reproduciendo ${usuarioActual.videosGuardados.length} videos...\n`);
+    
+    // Usar for...of en lugar de forEach para manejar correctamente el async/await
+    for (const element of usuarioActual.videosGuardados) {
+      console.log(`\n▶️  Reproduciendo: ${element.title}`);
+      console.log(`   Canal: ${element.channelTitle}`);
+      console.log(`   URL: ${element.url}`);
+      
+      try {
+        await playAudio(element.url);
+        console.log('✅ Reproducción completada\n');
+      } catch (error) {
+        console.error('❌ Error al reproducir el video:', error);
+        console.log('Continuando con el siguiente video...\n');
+      }
+    }
+    
+    console.log('🎉 Todos los videos han sido reproducidos.');
+  }
+}
+// ...existing code...  
 
   else if (action === 'reproducir_videos') {
     if (!loggedIn || !usuarioActual) {

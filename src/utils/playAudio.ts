@@ -3,6 +3,7 @@ import { createRequire } from "module";
 import ffmpeg from 'fluent-ffmpeg';
 import ffmpegStatic from 'ffmpeg-static';
 import { unlink } from 'fs/promises';
+import { obtenerDuracionFFmpeg } from './obtenerDuracion.js';
 const require = createRequire(import.meta.url);
 const player = require('node-wav-player');
 
@@ -16,9 +17,9 @@ ffmpeg.setFfmpegPath(ffmpegStatic as string);
 async function borrarArchivo(ruta: string) {
   try {
     await unlink(ruta);
-    console.log(`✓ Archivo eliminado: ${ruta}`);
+//    console.log(`✓ Archivo eliminado: ${ruta}`);
   } catch (error) {
-    console.error(`Error al borrar ${ruta}`);
+//    console.error(`Error al borrar ${ruta}`);
   }
 }
 
@@ -28,8 +29,8 @@ async function convertirM4AaWAV(archivoEntrada: string, archivoSalida: string): 
   return new Promise((resolve, reject) => {
     ffmpeg(archivoEntrada)
       .toFormat('wav')
-      .on('start', (commandLine) => {
-        console.log('Convirtiendo:', commandLine);
+      .on('start', () => {
+        console.log('Convirtiendo:'); //Potencialmente se podría agregar commandLine como parametro a la función y mostrarlo en consola, para temas de debug
       })
       .on('end', () => {
         console.log('Conversión finalizada');
@@ -64,9 +65,22 @@ export async function playAudio(url: string) {
     await convertirM4AaWAV('./music/audio.m4a', './music/audio.wav');
 
     console.log("Reproduciendo audio...");
+    const duracion = obtenerDuracionFFmpeg('./music/audio.wav');
+    console.log(`Duración: ${duracion.toFixed(2)} segundos`);
+    
+    // Reproducir el audio y esperar a que termine
     await player.play({
       path: './music/audio.wav',
     });
+    
+    // Esperar la duración del audio para que termine de reproducirse
+    await new Promise(resolve => setTimeout(resolve, duracion * 1000));
+    
+    console.log('✅ Reproducción completada');
+    
+    // Borrar archivos después de reproducir
+    await borrarArchivo('./music/audio.wav');
+    await borrarArchivo('./music/audio.m4a');
 
   } catch (error) {
     console.error('Error:', error);
