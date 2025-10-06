@@ -1,5 +1,9 @@
 # Proyecto Beatwave
 
+##  Diagrama UML
+
+![Diagrama UML](./UML.png)
+
 ##  Descripción del proyecto
 
 Este proyecto de software es un `wrapper (envoltura) personalizado para YouTube`, desarrollado en `TypeScript`, que utiliza `ytdlp` y `FFmpeg` para gestionar la descarga, conversión y reproducción de contenido multimedia.
