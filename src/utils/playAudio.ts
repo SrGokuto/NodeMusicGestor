@@ -30,7 +30,7 @@ async function convertirM4AaWAV(archivoEntrada: string, archivoSalida: string): 
     ffmpeg(archivoEntrada)
       .toFormat('wav')
       .on('start', () => {
-        console.log('Convirtiendo:'); //Potencialmente se podría agregar commandLine como parametro a la función y mostrarlo en consola, para temas de debug
+        console.log('Convirtiendo'); //Potencialmente se podría agregar commandLine como parametro a la función y mostrarlo en consola, para temas de debug
       })
       .on('end', () => {
         console.log('Conversión finalizada');
@@ -61,7 +61,6 @@ export async function playAudio(url: string) {
     console.log('Descarga completada:');
 
     // Convertir m4a a wav
-    console.log('Convirtiendo a WAV...');
     await convertirM4AaWAV('./music/audio.m4a', './music/audio.wav');
 
     console.log("Reproduciendo audio...");
