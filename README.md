@@ -33,7 +33,7 @@ El objetivo del proyecto es ofrecer una capa fácil de usar sobre herramientas d
 
 Asegúrate de tener instalados:
 
-- **Node.js** (versión recomendada)
+- **Node.js** 22.20.0 (LTS) _(Mínima recomendada)_
 - **ytdlp** → https://github.com/yt-dlp/yt-dlp
 - **FFmpeg** → https://ffmpeg.org/
 
@@ -42,8 +42,18 @@ Asegúrate de tener instalados:
 ### Instalación
 
 ```bash
-git clone <URL_DE_TU_REPOSITORIO>
-cd <nombre-del-proyecto>
+git clone https://github.com/SrGokuto/NodeMusicGestor.git
+cd NodeMusicGestor/
 
 npm install
 
+# Compilar
+npm run build
+
+# Iniciar
+npm start
+```
+
+### Antes de iniciar el proyecto, se recomienda establecer la variable de entorno YOUTUBE_GCLOUD_API_KEY en un archivo .env, de lo contrario no será posible conectarse a la API de Youtube v3
+
+Se puede obtener una API KEY desde (Aquí)[https://console.cloud.google.com]
