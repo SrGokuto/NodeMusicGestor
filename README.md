@@ -56,4 +56,4 @@ npm start
 
 ### Antes de iniciar el proyecto, se recomienda establecer la variable de entorno YOUTUBE_GCLOUD_API_KEY en un archivo .env, de lo contrario no será posible conectarse a la API de Youtube v3
 
-Se puede obtener una API KEY desde (Aquí)[https://console.cloud.google.com]
+Se puede obtener una API KEY desde [Aquí](https://console.cloud.google.com)
