@@ -35,6 +35,7 @@ while (true) {
     choices: [
       { name: 'Buscar Videos en YouTube', value: 'buscar_youtube' },
       { name: 'Ver Videos Guardados', value: 'ver_videos' },
+      { name: 'Listar Videos en JSON', value: 'listar_videos_json' },
       { name: 'Reproducir videos', value: 'reproducir_videos' },
       { name: 'Reproducir todo', value: 'reproducir_todo' },
       { name: 'Iniciar Sesión', value: 'login' },
@@ -65,6 +66,25 @@ while (true) {
         console.log(`   Canal: ${video.channelTitle}`);
         console.log(`   URL: ${video.url}`);
       });
+    }
+  }
+  if (action === 'listar_videos_json') {
+    if (!loggedIn || !usuarioActual) {
+      console.log('❌ Debes iniciar sesión para ver tus videos guardados.');
+      continue;
+    }
+    // Usar el tema del usuario premium si aplica
+    if (usuarioActual.usuario instanceof UsuarioPremium) {
+      consoleColor(usuarioActual.usuario.temaPreferido);
+    } else {
+      consoleColor(Tema.AZUL);
+    }
+
+    if (usuarioActual.videosGuardados.length === 0) {
+      console.log('📭 No hay videos guardados. Primero busca algunos videos en YouTube.');
+    } else {
+      console.log(`\n📁 Videos guardados de ${usuarioActual.usuario.nombre} (${usuarioActual.videosGuardados.length} total):`);
+      console.log(JSON.stringify(usuarioActual.videosGuardados, null, 2));
     }
   }
   // ...existing code...
